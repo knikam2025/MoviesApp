@@ -1,32 +1,25 @@
 import React from 'react';
 
-const Header = () => {
+const Header = ({ setSelectedCategory }) => {
+  const categories = ['All', 'Action', 'Comedy', 'Horror', 'Drama', 'Sci-Fi'];
+
   return (
-    <div className='bg-slate-800 text-white m-0 w-full p-2'>
-      <div className='flex justify-center'>
-        <img src="fancode.png" alt="MoviesFix Logo" className='w-[30%] sm:w-[20%] md:w-[15%]' />
+    <div className='header-container'>
+      <div className='header-logo'>
+        <img src="fancode.png" alt="MoviesFix Logo" className='header-logo-img' />
       </div>
 
-      <div className='overflow-x-auto'>
-        <ul className='flex space-x-2 p-5'>
-          <li className='bg-slate-500 p-2 rounded-lg text-xs md:text-4xl hover:bg-red-500 flex-shrink-0 w-[18%]'>
-            All
-          </li>
-          <li className='bg-slate-500 p-2 rounded-lg text-xs md:text-4xl hover:bg-red-500 flex-shrink-0 w-[18%]'>
-            Action
-          </li>
-          <li className='bg-slate-500 p-2 rounded-lg text-xs md:text-4xl hover:bg-red-500 flex-shrink-0 w-[18%]'>
-            Comedy
-          </li>
-          <li className='bg-slate-500 p-2 rounded-lg text-xs md:text-4xl hover:bg-red-500 flex-shrink-0 w-[18%]'>
-            Horror
-          </li>
-          <li className='bg-slate-500 p-2 rounded-lg text-xs md:text-4xl hover:bg-red-500 flex-shrink-0 w-[18%]'>
-            Drama
-          </li>
-          <li className='bg-slate-500 p-2 rounded-lg text-xs md:text-4xl hover:bg-red-500 flex-shrink-0 w-[18%]'>
-            Sci-Fi
-          </li>
+      <div className='header-categories'>
+        <ul className='header-category-list'>
+          {categories.map((category) => (
+            <li
+              key={category}
+              className='header-category-item'
+              onClick={() => setSelectedCategory(category)}
+            >
+              {category}
+            </li>
+          ))}
         </ul>
       </div>
     </div>

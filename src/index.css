@@ -3,6 +3,79 @@
 @tailwind utilities;
 
 
+
+/* Header */
+
+
+/* Header Container */
+.header-container {
+  background-color: #2d3748; /* bg-slate-800 */
+  color: white; /* text-white */
+  margin: 0;
+  width: 100%; /* w-full */
+  padding: 0.5rem; /* p-2 */
+}
+
+/* Logo */
+.header-logo {
+  display: flex;
+  justify-content: center;
+}
+
+.header-logo-img {
+  width: 30%; /* w-[30%] */
+}
+
+@media (min-width: 640px) {
+  .header-logo-img {
+    width: 20%; /* sm:w-[20%] */
+  }
+}
+
+@media (min-width: 768px) {
+  .header-logo-img {
+    width: 15%; /* md:w-[15%] */
+  }
+}
+
+/* Categories */
+.header-categories {
+  overflow-x: auto; 
+}
+
+.header-category-list {
+  display: flex;
+  gap: 0.5rem; 
+  padding: 1.25rem; 
+}
+
+.header-category-item {
+  background-color: #4a5568; 
+  padding: 0.5rem; 
+  border-radius: 0.25rem; 
+  font-size: 0.75rem; 
+  cursor: pointer;
+  flex-shrink: 0;
+  width: 18%; 
+}
+
+.header-category-item:hover {
+  background-color: #ef4444; 
+}
+
+@media (min-width: 768px) {
+  .header-category-item {
+    font-size: 2rem; 
+  }
+}
+
+
+
+
+
+
+
+/* cards */
 .cards-container {
   display: flex;
   flex-wrap: wrap;
@@ -48,3 +121,32 @@
   font-size: 1rem;
   margin-bottom: 0.5rem;
 }
+
+/* media */
+@media screen and (max-width: 480px) {
+  .movie-card {
+    position: relative;
+    background-color: #2d3748;
+    margin: 1rem;
+    width: 10rem; 
+    height: 15rem;
+    overflow: hidden;
+    border-radius: 8px;
+    
+  }
+
+  .card-title {
+    font-size: 0.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-rating,
+  .card-genre,
+  .card-overview {
+    font-size: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+

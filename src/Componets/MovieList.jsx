@@ -1,32 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Cards from './Cards'; // Assuming you have a Cards component for rendering movies
+import Cards from './Cards'; 
+import Header from './Header';
 
 const MovieList = () => {
-  const [movies, setMovies] = useState([]);
-  const [currentYear, setCurrentYear] = useState(2012);
+  const [moviesByYear, setMoviesByYear] = useState({});
   const [loading, setLoading] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const years = Array.from({ length: 2024 - 2012 + 1 }, (_, i) => 2012 + i);
 
   useEffect(() => {
-    fetchMovies(currentYear);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    years.forEach((year) => fetchMovies(year));
   }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (loading) return;
-      const bottom = window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight;
-
-      if (bottom) {
-        loadMoreMovies('next');
-      } else if (document.documentElement.scrollTop === 0 && currentYear > 2012) {
-        loadMoreMovies('previous');
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading, currentYear]);
 
   const fetchMovies = async (year) => {
     try {
@@ -43,7 +28,10 @@ const MovieList = () => {
           },
         }
       );
-      setMovies(response.data.results);
+      setMoviesByYear((prevMovies) => ({
+        ...prevMovies,
+        [year]: response.data.results.slice(0, 20),
+      }));
       setLoading(false);
     } catch (error) {
       console.error('Error fetching movies:', error);
@@ -51,20 +39,34 @@ const MovieList = () => {
     }
   };
 
-  const loadMoreMovies = (direction) => {
-    if (loading) return;
-
-    if (direction === 'next') {
-      setCurrentYear((prevYear) => prevYear + 1);
-    } else if (direction === 'previous' && currentYear > 2012) {
-      setCurrentYear((prevYear) => prevYear - 1);
-    }
+  const filterMovies = (movies) => {
+    if (selectedCategory === 'All') return movies;
+    const genreMap = {
+      Action: 28,
+      Comedy: 35,
+      Horror: 27,
+      Drama: 18,
+      'Sci-Fi': 878,
+    };
+    const genreId = genreMap[selectedCategory];
+    return movies.filter((movie) => movie.genre_ids.includes(genreId));
   };
 
   return (
     <div className="movie-list">
-      <h1>Popular Movies of {currentYear}</h1>
-      <Cards movies={movies} />
+      <Header setSelectedCategory={setSelectedCategory} />
+      <h1>Popular Movies</h1>
+      {years.map((year) => (
+        <div key={year} className="year-section">
+          <div style={{marginLeft:"30px"}}>
+          <b>
+            <h1 className="year-title"> {year}</h1>
+            </b>
+          </div>
+
+          <Cards movies={filterMovies(moviesByYear[year] || [])} />
+        </div>
+      ))}
       {loading && <p>Loading...</p>}
     </div>
   );
