@@ -31,11 +31,12 @@ To run this project locally, follow these steps:
    cd movie-app
 
 
-Install the dependencies:
+## Install the dependencies:
 npm install
 npm run dev
 
-
+## which not work:
+cast and director due to api doc fetch not show name of director on json
 
 
 # React + Vite
